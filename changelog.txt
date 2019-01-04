@@ -1,4 +1,8 @@
-Hitünk Énekei Lejátszó
+WebWorship
+
+Program-v2.0.2 2019-01-04
+A Hitünk Énekei Lejátszó átnevezve WebWorship névre
+Kiterjesztett ablaknál a teljes képernyős mód a továbbiakban nincs tiltva
 
 Program-v2.0.1b 2018-11-24
 Egyes énekeknél (a Hitünk Énekein kívüli könyvekben) az adatbázisban a refrén nincs beleírva a a versszakokba, hanem külön adatként szerepel. A program ezt nem jelenítette meg. Most már kiírja az így megadott refrént minden versszak végére.

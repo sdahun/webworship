@@ -1,6 +1,6 @@
 lang['hu']['LANGUAGE'] = 'Magyar';
 lang['hu']['ISO'] = 'hu';
-lang['hu']['AppName'] = 'Hitünk Énekei Lejátszó';
+lang['hu']['AppName'] = 'WebWorship';
 lang['hu']['ChangeLog'] = 'Verziókkal kapcsolatos változások leírása';
 lang['hu']['DesktopViewIcon'] = 'Váltás asztali nézetre';
 lang['hu']['MobileViewIcon'] = 'Váltás mobil nézetre';
@@ -106,7 +106,7 @@ lang['hu']['BelowParalel'] = 'Egymás alá';
 
 // Informations
 lang['hu']['InformationsContent'] =
-	'<b>Hitünk Énekei Lejátszó</b><br>' +
+	'<b>WebWorship</b><br>' +
 	'<br>' +
 	'Készítette: Szabó Csongor<br>' +
 	'Email: vizslancs@gmail.com | csongor.szabo85@gmail.com<br>' +

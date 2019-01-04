@@ -106,7 +106,7 @@ lang['de']['BelowParalel'] = 'Unten';
 
 // Informations
 lang['de']['InformationsContent'] =
-	'<b>Hitünk Énekei Lejátszó</b><br>' +
+	'<b>WebWorship</b><br>' +
 	'<br>' +
 	'Készítette: Szabó Csongor<br>' +
 	'Email: vizslancs@gmail.com | csongor.szabo85@gmail.com<br>' +
