@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="expires" content="Sun, 01 Jan 2014 00:00:00 GMT">
+<meta http-equiv="pragma" content="no-cache">
+<link rel="icon" type="image/x-icon" href="resources/favicon.ico">
+<link rel="icon" type="image/png" href="resources/favicon.png">
+
+<title>Hitünk Énekei Lejátszó</title>
+<script>
+// Hitünk Énekei Lejátszó
+// licenc: freeware - ingyenes, pénzért nem árusítható, szabadon terjeszthető, szabadon módosítható (a módosított változatnál a verziószámban kérem ezt feltüntetni valamilyen formában)
+// készítette: Szabó Csongor
+// email: vizslancs@gmail.com | csongor.szabo85@gmail.com
+var VERSION = '2.0.1b'; // 2018-11-24
+</script>
+
+<style>
+html, body { font-family: times; font-size: 15px; width: 100%; height: 100%; margin: 0; padding: 0; background: #753 }
+table, td, th { border: 0; }
+
+#presenter { position: fixed; left: 0; top: 0; width: 100%; height: 100%; }
+
+.playMode td,
+.playMode th,
+.numpad td,
+.numpad th { padding: 0; }
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.numpad { width: 100%; height: 100%; border-spacing: 5px; border-collapse: separate; }
+.numpad td { width: 33%; height: 25%; text-align: center; background: #aaa; font-size: 350%; cursor: pointer; border: 3px solid #aaa; border-radius: 8px; }
+.numpad td:hover { background: #bbb; }
+
+.playMode { width: 100%; height: 100%; border-spacing: 8px; border-collapse: separate; }
+.playMode .button { height: 20%; font-size: 100%; line-height: 100%; padding: 2px; }
+
+.playMode td table { width: 100%; height: 100%; border: 0; padding: 0; margin: 0; border-spacing: 0; }
+.playMode td table th,
+.playMode td table td { padding: 0; margin: 0; border-spacing: 0; }
+.playMode td table th,
+.playMode td table td,
+.playMode td table td:hover { background: transparent; border: 0; }
+.playMode td table th { width: 25%; min-width: 60px; background: #000; color: #fff; font-size: 200%; font-weight: bold; text-align: center; border-radius: 5px; line-height: 150%; }
+.playMode td table td { width: 75%; text-align: center; }
+
+.vv { padding: 0px 2px; background: #aaa; margin: 0 5px 5px 0; color: #000; font-size: 190%; cursor: pointer; border: 3px solid #aaa; border-radius: 8px; }
+.vv.vv09 { padding: 0px 8px; }
+.vv:hover { background: #bbb; }
+.vv.van { background: #0d0; color: /*#888*/#fff; border-color: #0d0 !important; }
+.vv.disabled { background: #ddd; color: #888; border-color: #ddd !important; }
+.var { padding: 0px 4px; background: #eee; margin: 0 5px 5px 0; color: #f44; font-size: 180%; cursor: pointer; border: 3px solid #f44; border-radius: 8px; }
+.var:hover { background: #fcc; }
+.var.sel { background: #f22; color: #fff; border-color: #f22; }
+.varSpacer { font-size: 180%; }
+.desktop #infoContent:hover { background: rgba(255, 255, 255, 0.4) !important; color: #000 !important; }
+.desktop #pauseButton:hover,
+.desktop #playButton:hover { background: rgba(0, 0, 0, 0.5) !important; }
+.songSelection .numpad td { border-color: #000; }
+.verseSelection .vv { border-color: #000; }
+.verseSelection .vv.van { border-color: #ddd; }
+#vol.mute .volFrame { border-color: #f00 !important; }
+#vol.mute #volValueTxt { color: #f00 !important; }
+#body.hideMouse * { cursor: none !important; }
+.desktop.hideMouse #pauseButton,
+.desktop.hideMouse #playButton { visibility: hidden !important; }
+#textContent { color: #fff; }
+#textContent .kiemelt { font-weight: bold; }
+#textContent .szam { font-size: 75%; /*vertical-align: super;*/ }
+.playModeSel { border-color: #08f !important; }
+.playModeDisabled { opacity: 0.4; }
+.playModeDisabled th { background: #444 !important; color: #fff !important; }
+audio { position: relative; top: 20px; }
+
+.panel { padding: 3px 8px; margin: 0 2px; }
+.panel.op.selected { color: #000 !important; background: #fff !important; border-radius: 0 !important; margin-left: 0 !important; padding-left: 10px !important; border-bottom: 1px solid #38d; margin-bottom: 2px; margin-right: 0; }
+.panel.op.mark { background: #b0c8df; border-radius: 8px; }
+.panel.op.error { color: #f00 !important; }
+#panelSelect.close { cursor: pointer; }
+#panelSelect.open { box-shadow: 0 2px 10px #000; }
+#panelSelect.open .panel.op { cursor: pointer; }
+#panelSelect.open .panel.op:hover { color: #fff; background: #4af; border-radius: 8px; }
+#panelSelectInner { padding-bottom: 2px; /*padding-top: 2px;*/ }
+
+.book { padding: 3px 8px; margin: 0 2px; }
+.book.op.selected { color: #000 !important; background: #fff !important; border-radius: 0 !important; margin-left: 0 !important; padding-left: 10px !important; border-bottom: 1px solid #38d; margin-bottom: 2px; margin-right: 0; }
+.book.op.mark { background: #b0c8df; border-radius: 8px; }
+.book.op.error { color: #f00 !important; }
+.book .lang { float: right; color: #888; }
+#bookSelect.close { cursor: pointer; }
+#bookSelect.open { box-shadow: 0 2px 10px #000; }
+#bookSelect.open .book.op { cursor: pointer; }
+#bookSelect.open .book.op:hover { color: #fff; background: #4af; border-radius: 8px; }
+#bookSelectInner { padding-bottom: 2px; /*padding-top: 2px;*/ }
+
+#search { box-shadow: 0 0px 10px #000; }
+
+.song { padding: 3px 8px; margin: 0 2px; }
+#songSelector.close { cursor: pointer; }
+#songSelector.open { box-shadow: 0 2px 10px #000; }
+#songSelector.open .song.op { cursor: pointer; }
+#songSelector.open .song.op:hover { color: #fff; background: #4af; border-radius: 8px; }
+.song.op.same { font-style: italic; }
+.song.op.withOutMusic { color: #777; }
+.song.op.error { color: #f00 !important; }
+.errorDesc { padding: 0 8px 3px 8px; margin: 0 2px; color: #f00; font-size: 70%; }
+.posDesc { padding: 0 8px 3px 8px; margin: 0 2px; color: #888; font-size: 50%; }
+.posDesc b { color: #000; }
+.kategoria { color: #4af; font-size: 50%; font-weight: bold; padding-left: 5px; padding-top: 3px; }
+#songSelectorInner { padding-bottom: 2px; }
+
+.desktop #panelSelect.close:hover,
+#panelSelect.open,
+.desktop #bookSelect.close:hover,
+#bookSelect.open,
+.desktop #songSelector.close:hover,
+.desktop #songSelectInfo:hover,
+#search { border-color: #4af !important; background: #d0e8ff !important; }
+
+.desktop #titleListSelectDown:hover span,
+.desktop #titleListSelectUp:hover span { background: #4af !important; }
+
+#panelSelect.close:hover .op.selected,
+#bookSelect.close:hover .op.selected { background: transparent !important; }
+
+#extendedButton.selected { color: #b60 !important; }
+
+#mouseSongSelector { cursor: none !important; border-spacing: 0; }
+#mouseSongSelectorNumber { color: #aaa; font-size: 100%; line-height: 1em; }
+#mouseSongSelectorNumber.selected { color: #ff0; }
+#mouseSongSelectorTitle { font-size: 20%; color: #fff; }
+#mouseSongSelectorTitle.onlyText { color: #888; }
+#mouseSongSelectorVerses { color: #888; font-size: 30%; }
+#mouseSongSelectorVerses .v.selected { color: #ff0; }
+#mouseSongSelectorVerses .v.marked { text-decoration: underline; }
+
+.buttons { padding: 0px 0 5px 5px; }
+.buttons span,
+.buttons a { display: block; float: left; padding: 0px 2px; background: #eca; border: 3px solid #eca; margin: 10px 10px 0 0; color: #000; font-size: 180%; cursor: pointer; border-radius: 5px; white-space: nowrap; text-decoration: none; line-height: 1em; box-shadow: 0 0 3px #000; }
+.buttons span:hover,
+.buttons a:hover { background: #fdb !important; border: 3px solid #fdb !important; }
+.clear { font-size: 0; line-height: 0; clear: both; }
+
+.windowTitle { font-size: 100%; }
+
+.button { padding: 5px 10px; cursor: pointer; background: #68a; color: #fff; border-radius: 5px; font-family: times; font-weight: normal; box-shadow: 0 0 5px #000; font-size: 100%; }
+.button.selected { background: #0d0; color: #fff; }
+.button.cancel { background: #f00; color: #fff; }
+.button:hover { opacity: 0.8; }
+.button.disabled { background: #888; color: #fff; opacity: 1; cursor: default; }
+
+
+/* Bible verse selector inputs */
+
+.bible { padding: 3px 8px; margin: 0 2px; }
+.bible.op.selected { color: #000 !important; background: #fff !important; border-radius: 0 !important; margin-left: 0 !important; padding-left: 10px !important; border-bottom: 1px solid #38d; margin-bottom: 2px; margin-right: 0; }
+.bible.op.mark { background: #b0c8df; border-radius: 8px; }
+.bible.op.unloaded { color: #800 !important; }
+.bible .lang { float: right; color: #555; }
+.bible .description { font-size: 50%; }
+.bible.op .addParalel,
+.bible.op .removeParalel,
+.bible.op .selectedParalel { border-radius: 20px; float: right; font-weight: bold; color: #fff; margin-left: 5px; border: 1px solid #000; position: relative; left: 4px; }
+.bible.op .addParalel { background: #0a0; }
+.bible.op .removeParalel { background: #a00; }
+.bible.op .selectedParalel { /*background: #d70;*/ border: 0; color: #000; margin-left: 1px; }
+.bible.op .addParalel:hover,
+.bible.op .removeParalel:hover { box-shadow: 0 0 5px #000; }
+.bible.op .info { background: #08c; border-radius: 20px; color: #fff; float: right; position: relative; left: 2px; margin-left: 5px; border: 1px solid #000; }
+.bible.op .info:hover { box-shadow: 0 0 5px #000; }
+#bibleSelect.close { cursor: pointer; }
+#bibleSelect.close .description { display: none; }
+#bibleSelect.open { box-shadow: 0 2px 10px #000; }
+#bibleSelect.open .bible.op { cursor: pointer; }
+#bibleSelect.open .bible.op:hover { color: #fff; background: #4af; border-radius: 8px; }
+#bibleSelectInner { padding-bottom: 2px; /*padding-top: 2px;*/ }
+
+.desktop #bibleSelect.close:hover,
+#bibleSelect.open { border-color: #4af !important; background: #d0e8ff !important; }
+#bibleSelect.close:hover .op.selected { background: transparent !important; }
+
+.input { position: relative; height: 40px; border: 3px solid #888; background: #fff; border-radius: 8px; padding: 0 5px; line-height: 1.3em; overflow: hidden; cursor: pointer; white-space: nowrap; }
+.input .sample { visibility: hidden; }
+.input .field { position: absolute; left: 0; top: 0; width: 100%; height: 100%; text-align: center; }
+.text { height: 40px; padding: 0 0px; line-height: 1.3em; }
+.desktop .input:hover,
+.input.selected { border-color: #4af; background: #d0e8ff; }
+.input.selected { box-shadow: 0 2px 10px #000; }
+.input.alert { border-color: #f00 !important; background: #ffe8e8 !important; }
+.text.equal { cursor: pointer; background: #ddd; border-radius: 8px; }
+.text.equal:hover { background: #ccc; box-shadow: 0 0 2px #000; }
+
+/* Bible verse selector block */
+#selectorBlock { border: 1px solid #aaa; background: #fff; border-radius: 8px; margin-top: 5px; overflow: hidden; height: 400px; } 
+#selectorBlockInner { padding: 5px; } 
+#selectorBlock span { display: block; float: left; padding: 4px 4px; background: #eca; /*border: 3px solid #eca;*/ margin: 3px; color: #000; cursor: pointer; border-radius: 7px; white-space: nowrap; line-height: 1em; box-shadow: 0 0 2px #000; position: relative; }
+/*#selectorBlock span.n09 { padding: 0 11.7px; }*/
+#selectorBlock span u { visibility: hidden; text-decoration: none; }
+#selectorBlock span i { position: absolute; left: 0; top: 0; width: 100%; height: 100%; font-style: normal; text-align: center; padding-top: 4px; }
+#selectorBlock span:hover { box-shadow: 0 0 5px #000; }
+.mobile #bibleSelector1 { width: 100% !important; margin-bottom: 4px; }
+.mobile #bibleSelector2 { width: 100% !important; }
+
+/* Bible buttons */
+#bibleButtons .button { display: block; float: left; margin: 0 10px 10px 0; }
+
+/* Bible text format */
+.bibleRf { display: none; }
+.bibleTs { display: block; margin: 10px 0; font-size: 50%; line-height: 1em; }
+.bibleI { font-style: italic; }
+.bibleR { color: #f00; }
+.bibleCM { display: block; font-size: 0; line-height: 0; }
+.WH,
+.WG { font-size: 50%; color: #08f; padding: 0 7px; text-decoration: underline; cursor: pointer; }
+.WH:hover,
+.WG:hover { color: #88f; }
+
+
+#flag { cursor: pointer; position: relative; top: 1.4px; width: 32px; height: 21px; }
+#languageSelector .button img { height: 21px; width: 32px; }
+.mobile #languageSelector .button img { height: 42px; }
+
+.appIcon { height: 38px; position: relative; left: -5px; margin-right: 1%; float: left; }
+.desktopViewIcon,
+.mobileViewIcon { height: 38px; float: right; position: relative; left: 5px; cursor: pointer; }
+
+/*.mobile #pauseButton,
+.mobile #playButton { opacity: 0.5 !important; }*/
+.mobile #infoContent { /*width: 100% !important;*/ background: rgba(255, 255, 255, 0.2) !important; }
+.mobile.landscape #pauseButton { font-size: 30px !important; /*padding: 20px !important;*/ }
+.mobile.landscape #playButton { font-size: 30px !important; /*padding: 21px 21px 20px 20px !important;*/ }
+.mobile.landscape #infoContent { font-size: 30px !important; padding-left: 10px !important; padding-top: 10px !important; padding-bottom: 10px !important; }
+.mobile.portrait #pauseButton { font-size: 60px !important; /*padding: 35px !important;*/ }
+.mobile.portrait #playButton { font-size: 60px !important; /*padding: 36px 36px 35px 35px !important;*/ }
+.mobile.portrait #infoContent { font-size: 50px !important; padding-left: 20px !important; padding-top: 20px !important; padding-bottom: 20px !important; }
+.mobile .mobileViewIcon { display: none; }
+.desktop .desktopViewIcon { display: none; }
+.mobile .buttons span,
+.mobile .buttons a { font-size: 280%; }
+.mobile .buttons #flag { width: 45px !important; height: 30px !important; }
+.mobile .button { font-size: 200%; }
+.mobile .noMobile .button { font-size: 100% !important; }
+.mobile .windowTitle { font-size: 200%; }
+
+.mobile .buttons { position: absolute; left: 5%; width: 89%; top: 10%; height: 80%; background: #fff; border: 3px solid #aaa; border-radius: 10px; z-index: 6; overflow: auto; box-shadow: 0 0 30px #000; display: none; }
+.mobile .buttons.show { display: block; }
+.mobile .buttons span,
+.mobile .buttons a { float: none; margin: 10px 10px; text-align: center; }
+.mobile .appIcon { background: #eca; border: 3px solid #eca; border-radius: 5px; box-shadow: 0 0 3px #000; }
+
+.mobile #mainWindowPanel { width: 580px !important; }
+
+/* extended mode thumbnail */
+.thumb #presenter { width: 320px !important; height: 240px !important; z-index: 1 !important; border: 1px solid #fff; }
+.thumb #txtBlock { display: block !important; }
+.thumb #textContent { visibility: visible !important; }
+.thumb #infoContent { font-size: 13px !important; padding: 4px !important; z-index: 1 !important; }
+.thumb #continueButton { visibility: visible !important; }
+.thumb #mainWindow { left: 322px !important; }
+.thumb #mainWindow .mainWindowTd { vertical-align: top !important; }
+.thumb #mainWindowPanel { margin: 0 !important; }
+</style>
+
+</head>
+<body id="body" class="desktop">
+
+<div id="presenter">
+
+	<!-- background -->
+	<div id="background" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-repeat: no-repeat; background-position: center; background-size: 100% 100%;" onclick="presenter.toggleFullScreen(event)"></div>
+
+	<div id="txtBlock" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;">
+
+		<!-- paging -->
+		<table style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; text-align: center; font-family: times; border-spacing: 0; padding: 0;"><tr><td id="touchInfo" style="border-spacing: 0; padding: 0; color: #ff0; opacity: 0.5; font-size: 5000%;"></td></tr></table>
+
+		<!-- song text -->
+		<div id="textContent" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; text-align: center; font-family: times; font-weight: bold; line-height: 1em;" onclick="presenter.txtClick(event)" oncontextmenu="/*presenter.txtRightClick();*/ return false;"></div>
+
+		<!-- big pause button -->
+		<table id="continueButton" class="noselect" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: none; visibility: hidden;">
+		<tr><td style="text-align: center; vertical-align: middle;">
+			<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" onclick="presenter.toggleFullScreen(event)"></div>
+			<span id="continueButtonTxt" style="position: relative; padding: 30px; background: #eee; color: #000; border-radius: 40px; cursor: pointer; text-shadow: 0 0 0;" onclick="player.continue()" class="tr_Pause">Pause</span>
+		</td></tr>
+		</table>
+
+		<!-- footer info row -->
+		<div id="infoContent" class="noselect" style="position: absolute; left: 0; bottom: 0; color: #fff; font-size: 25px; padding: 10px; cursor: pointer; z-index: 10; display: none; width: 100%; background: rgba(255, 255, 255, 0.1); border-top: 1px solid rgba(0, 0, 0, 0.1);" onclick="presenter.clickInfoContent()"></div>
+
+		<!-- small pause button -->
+		<div id="pauseButton" class="noselect tr_title_Pause" style="position: absolute; right: 0; bottom: 0; color: #fff; /*padding: 10px;*/ text-align: center; background: rgba(0, 0, 0, 0.25); font-size: 20px; font-family: arial; font-weight: bold; cursor: pointer; display: none; z-index: 10;" onclick="player.pause()" title="Pause">| |</div>
+
+		<!-- small continue button -->
+		<div id="playButton" class="noselect tr_title_Continue" style="position: absolute; right: 0; bottom: 0; color: #fff; /*padding: 10px 10px 11px 11px;*/ text-align: center; background: rgba(0, 0, 0, 0.25); font-size: 20px; font-family: arial; font-weight: bold; cursor: pointer; display: none; z-index: 10; line-height: 1.1em;" onclick="player.continue()" title="Continue">&#9654;</div>
+
+	</div>
+
+</div>
+
+<!-- main window -->
+<table id="mainWindow" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; color: #000; /*background: #753;*/ border: 0;">
+<tr>
+	<td class="mainWindowTd" style="padding: 0; text-align: left; vertical-align: middle;">
+		<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" onclick="if (mainWindowPanelElement.style.display == 'none') { screenSaver.exitBackground(); } else { presenter.toggleFullScreen(event); }"></div>
+		<table id="mainWindowPanel" style="position: relative; width: 680px; height: 400px; background: #eee; border: 3px solid #ccc; border-radius: 5px; padding: 10px; margin: auto; border-spacing: 0; border-collapse: separate; /*margin-bottom: 70px;*/ box-shadow: 0 0 50px #000;">
+		<tr>
+			<td style="height: 1%; padding: 0px 5px 0 5px; text-align: center; font-size: 250%;">
+				<img src="resources/desktop.png" title="Switch to desktop view" onclick="presenter.setMobileView(false)" class="desktopViewIcon tr_title_DesktopViewIcon">
+				<img src="resources/mobile.png" title="Switch to mobile view" onclick="presenter.setMobileView(true)" class="mobileViewIcon tr_title_MobileViewIcon">
+				<span onclick="panel.titleClick()" class="noselect" style="cursor: pointer;">
+					<img src="resources/favicon.png" class="appIcon" onclick="panel.showMenu()"><span class="tr_AppName" onclick="panel.hideMenu()">Hitünk Énekei Lejátszó</span>
+				</span>
+				<a href="changelog.txt" id="changelog" target="_blank" title="Changelog" class="tr_title_ChangeLog" style="font-size: 50%; color: #444;"></a>
+			</td>
+		</tr>
+		<tr>
+			<td style="height: 1%; padding: 5px 5px 0 5px;">
+				<div class="noselect" style="font-size: 200%; text-align: left; /*background: #fff; border-radius: 8px;*/ position: relative;">
+					<div id="samplePanel" style="border: 3px solid transparent;">
+						<div class="panel">&nbsp;</div>
+					</div>
+					<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;">
+						<div id="panelSelect" style="position: relative; overflow: auto; height: 40px; border: 3px solid #888; background: #fff; border-radius: 8px; z-index: 5;" onclick="panel.selectClick()">
+							
+							<div class="panel">Loading...</div>
+							
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0;">
+				
+				<table id="panelHymnal" style="width: 100%; border-spacing: 0; border-collapse: separate; display: none;">
+				<tr>
+					<td colspan="2" style="height: 1%; padding: 5px 5px 0 5px;">
+						<div class="noselect" style="font-size: 200%; text-align: left; /*background: #fff; border-radius: 8px;*/ position: relative;">
+							<div id="sampleBook" style="border: 3px solid transparent;">
+								<div class="book">&nbsp;</div>
+							</div>
+							<div id="bookSelectDown" class="book" onclick="songBook.bookSelectDown()" style="border: 3px solid transparent; position: absolute; top: 1px; right: 5px; z-index: 4; display: none; cursor: pointer;"><span style="color: #fff; background: #555; border-radius: 5px;">&#9660;</span></div>
+							<div id="bookSelectUp" class="book" onclick="songBook.bookSelectUp()" style="border: 3px solid transparent; position: absolute; top: 1px; right: 5px; z-index: 4; display: none; cursor: pointer;"><span style="color: #fff; background: #555; border-radius: 5px;">&#9650;</span></div>
+							<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;">
+								<div id="bookSelect" style="position: relative; overflow: auto; height: 40px; border: 3px solid #888; background: #fff; border-radius: 8px; z-index: 3;" onclick="songBook.bookSelectClick()">
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="height: 1%; padding: 5px 5px 0 5px;">
+						<div id="songSelectInfo" style="font-size: 300%; border: 0; text-align: left; padding: 5px; border: 3px solid #888; background: #fff; border-radius: 8px; cursor: pointer;" class="tr_title_Search" title="Search" onclick="songPanel.searchOn()">Loading...</div>
+						<div id="search" style="display: none; position: relative; padding: 5px; border: 3px solid #888; background: #fff; border-radius: 8px;">
+							<input type="text" id="searchInput" style="font-size: 300%; font-family: times; font-weight: normal; color: #000; width: 100%; padding: 0; margin: 0; border: 0; background: transparent; outline: none;" onkeyup="songPanel.updateSearch()">
+							<div onclick="songPanel.searchOff()" style="border: 3px solid transparent; position: absolute; top: 10px; right: 10px; z-index: 2; cursor: pointer; font-size: 200%; font-weight: bold;"><span style="color: #fff; background: #555; border-radius: 5px; padding: 0 7px;">×</span></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="height: 1%; padding: 5px 5px 0 5px;">
+						<div class="noselect" style="font-size: 200%; text-align: left; /*background: #fff; border-radius: 8px;*/ position: relative;">
+							<div id="sampleItem" style="border: 3px solid transparent;">
+								<div class="kategoria">&nbsp;</div>
+								<div class="song">&nbsp;</div>
+							</div>
+							<div id="titleListSelectDown" class="song" onclick="songPanel.titleListSelectDown()" style="border: 3px solid transparent; position: absolute; top: 10px; right: 5px; z-index: 2; display: none; cursor: pointer;"><span style="color: #fff; background: #555; border-radius: 5px;">&#9660;</span></div>
+							<div id="titleListSelectUp" class="song" onclick="songPanel.titleListSelectUp()" style="border: 3px solid transparent; position: absolute; top: 10px; right: 5px; z-index: 2; display: none; cursor: pointer;"><span style="color: #fff; background: #555; border-radius: 5px;">&#9650;</span></div>
+							<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;">
+								<div id="songSelector" style="position: relative; overflow: auto; height: 45px; border: 3px solid #888; background: #fff; border-radius: 8px; z-index: 1;" onclick="songPanel.titleListSelectClick()">
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="padding: 0; width: 50%;">
+						<table class="numpad noselect" style="border-spacing: 5px; border-collapse: separate;">
+						<tr>
+							<td onclick="songPanel.writeSongNumber(1)">1</td>
+							<td onclick="songPanel.writeSongNumber(2)">2</td>
+							<td onclick="songPanel.writeSongNumber(3)">3</td>
+						</tr>
+						<tr>
+							<td onclick="songPanel.writeSongNumber(4)">4</td>
+							<td onclick="songPanel.writeSongNumber(5)">5</td>
+							<td onclick="songPanel.writeSongNumber(6)">6</td>
+						</tr>
+						<tr>
+							<td onclick="songPanel.writeSongNumber(7)">7</td>
+							<td onclick="songPanel.writeSongNumber(8)">8</td>
+							<td onclick="songPanel.writeSongNumber(9)">9</td>
+						</tr>
+						<tr>
+							<td onclick="songPanel.writeSongNumber(0)">0</td>
+							<td onclick="songPanel.writeSongNumber(-1)" colspan="2">
+								<span style="font-size: 70%; position: relative; top: -7px; line-height: 0;">&#8678; <span style="font-size: 90%; position: relative; top: 0;" class="tr_Del">Delete</span></span>
+							</td>
+						</tr>
+						</table>
+					</td>
+					<td style="padding: 0; width: 50%;">
+						<table class="playMode noselect noMobile">
+						
+						<tr><td id="modePlay" onclick="songPanel.playModeClick('modePlay')"><table><tr><th>&#9654;</th><td style="font-size: 300%;" class="tr_PlayButton">Play</td></tr></table></td></tr>
+						
+						<tr><td id="modeWithoutIntro" onclick="songPanel.playModeClick('modeWithoutIntro')"><table><tr><th>×&#9654;</th><td style="font-size: 170%;" class="tr_WithoutIntroButton">Without intro</td></tr></table></td></tr>
+						
+						<tr><td id="modeAddToList" onclick="songPanel.playModeClick('modeAddToList')"><table><tr><th>&#9776;</th><td style="font-size: 162%;" class="tr_AddToPlayListButton">Add to playlist</td></tr></table></td></tr>
+						
+						<tr><td id="modeOnlyText" onclick="songPanel.playModeClick('modeOnlyText')"><table><tr><th>T|T</th><td style="font-size: 220%;" class="tr_OnlyTextButton">Only text</td></tr></table></td></tr>
+						
+						<tr><td id="modeOnlyTextInOne" onclick="songPanel.playModeClick('modeOnlyTextInOne')"><table><tr><th>TT</th><td style="font-size: 130%;" class="tr_OnlyTextInOneButton">Only text in one</td></tr></table></td></tr>
+						
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="padding: 15px 0px 10px 5px; height: 1%;">
+						<div style="position: relative;">
+							<div id="verseSelector"></div>
+							<div style="position: absolute; right: 5px; bottom: 0; text-align: right; font-size: 100%; ">
+								<span style="color: #888;"><span class="tr_Database">Database</span>: <span id="dataVersion">???</span></span><br>
+							</div>
+						</div>
+					</td>
+				</tr>
+				</table>
+				
+				<table id="panelBible" style="width: 100%; border-spacing: 0; border-collapse: separate; display: none;">				
+				<tr>
+					<td style="height: 1%; padding: 5px 5px 0 5px;">
+						<div class="noselect" style="font-size: 200%; text-align: left; /*background: #fff; border-radius: 8px;*/ position: relative;">
+							<div id="sampleBible" style="border: 3px solid transparent;">
+								<div class="bible">&nbsp;</div>
+							</div>
+							<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;">
+								<div id="bibleSelect" style="position: relative; overflow: auto; height: 40px; border: 3px solid #888; background: #fff; border-radius: 8px; z-index: 3;" onclick="biblePanel.bibleSelectClick()">
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="height: 1%; padding: 5px 5px 0 5px;">
+						<table id="bibleSelector1" style="border-spacing: 0; border-collapse: separate; font-size: 200%; width: 50%; float: left;" class="noselect">
+						<tr>
+							<td style="width: 43%; padding-left: 0;">
+								<div class="input" id="bibleBookInput" onclick="biblePanel.selectVerseSelector('book', 1, true)">
+									<span class="sample">1 Chron.</span>
+									<span class="field" id="bibleBook"></span>
+								</div>
+							</td>
+							<td style="width: 1%;"><div class="text">&nbsp;</div></td>
+							<td style="width: 20%;">
+								<div class="input" id="bibleChapterInput" onclick="biblePanel.selectVerseSelector('chapter', 1, true)">
+									<span class="sample">999</span>
+									<span class="field" id="bibleChapter"></span>
+								</div>
+							</td>
+							<td style="width: 1%;"><div class="text" style="text-align: center;">:</div></td>
+							<td style="width: 20%;">
+								<div class="input" id="bibleVerseInput" onclick="biblePanel.selectVerseSelector('verse', 1, true)">
+									<span class="sample">999</span>
+									<span class="field" id="bibleVerse"></span>
+								</div>
+							</td>
+							
+							<td style="width: 15%; text-align: center; padding-left: 5px; padding-right: 5px;"><div class="text equal" onclick="biblePanel.setEqual()">&ndash;</div></td>
+						</tr>
+						<table id="bibleSelector2" style="border-spacing: 0; border-collapse: separate; font-size: 200%; width: 50%; float: left;" class="noselect">
+						<tr>
+							<td style="width: 43%; padding-left: 0;">
+								<div class="input" id="bibleBookInput2" onclick="biblePanel.selectVerseSelector('book', 2, true)">
+									<span class="sample">1 Chron.</span>
+									<span class="field" id="bibleBook2"></span>
+								</div>
+							</td>
+							<td style="width: 1%;"><div class="text">&nbsp;</div></td>
+							<td style="width: 20%;">
+								<div class="input" id="bibleChapterInput2" onclick="biblePanel.selectVerseSelector('chapter', 2, true)">
+									<span class="sample">999</span>
+									<span class="field" id="bibleChapter2"></span>
+								</div>
+							</td>
+							<td style="width: 1%;"><div class="text" style="text-align: center;">:</div></td>
+							<td style="width: 20%;">
+								<div class="input" id="bibleVerseInput2" onclick="biblePanel.selectVerseSelector('verse', 2, true)">
+									<span class="sample">999</span>
+									<span class="field" id="bibleVerse2"></span>
+								</div>
+							</td>
+							<td style="width: 15%; text-align: center; padding-left: 5px; padding-right: 5px;"><div class="text equal" onclick="biblePanel.clearVerse2()">&nbsp;×&nbsp;</div></td>
+						</tr>
+						</table>
+						<div class="clear"></div>
+						
+						<div style="position: relative;">
+							<div id="selectorBlock" class="noselect"></div>
+							<div id="bibleButtons" class="noselect" style="display: none; position: absolute; left: 0; top: 0; width: 100%; height: 100%;">
+							
+								<div id="bibleSearch" style="display: none; position: relative; padding: 5px; border: 3px solid #888; background: #fff; border-radius: 8px; margin-bottom: 5px;">
+									<input type="text" id="bibleSearchInput" style="font-size: 200%; font-family: times; font-weight: normal; color: #000; width: 100%; padding: 0; margin: 0; border: 0; background: transparent; outline: none;" onkeyup="songPanel.updateSearch()">
+									<div onclick="biblePanel.searchOff()" style="border: 3px solid transparent; position: absolute; top: 2px; right: 2px; z-index: 2; cursor: pointer; font-size: 200%; font-weight: bold;"><span style="color: #fff; background: #555; border-radius: 5px; padding: 0 7px;">×</span></div>
+								</div>
+							
+								<div style="font-size: 200%; padding: 2px; margin-top: 3px;">
+									<div class="noMobile">
+										<span id="biblePlay1" onclick="biblePanel.playModeClick('biblePlay1')" class="button selected tr_OneBibleVerse">One verse</span>
+										
+										<span id="biblePlay2" onclick="biblePanel.playModeClick('biblePlay2')" class="button tr_TwoBibleVerses">Two verses</span>
+										
+										<span id="biblePlay3" onclick="biblePanel.playModeClick('biblePlay3')" class="button tr_ThreeBibleVerses">Three verses</span>
+										
+										<span id="biblePlayAll" onclick="biblePanel.playModeClick('biblePlayAll')" class="button tr_AllBibleVerses" style="margin-right: 0;">All verses</span>
+										
+										<div class="clear"></div>
+									</div>
+									<div class="noMobile">
+										<span id="biblePlayFew" onclick="biblePanel.playModeClick('biblePlayFew')" class="button tr_FewBibleText">Few text</span>
+										
+										<span id="biblePlayMedium" onclick="biblePanel.playModeClick('biblePlayMedium')" class="button tr_MediumBibleText">Medium text</span>
+										
+										<span id="biblePlayMuch" onclick="biblePanel.playModeClick('biblePlayMuch')" class="button tr_MuchBibleText" style="margin-right: 0;">Much text</span>
+										
+										<div class="clear"></div>
+									</div>
+									<div class="noMobile" style="border-top: 1px solid #000; padding-top: 10px;">
+										<span id="bibleVerseSeparatorOn" onclick="biblePanel.setVerseSeparator(true)" class="button tr_SeparatedVerses">Separated</span>
+										<span id="bibleVerseSeparatorOff" onclick="biblePanel.setVerseSeparator(false)" class="button tr_UnseparatedVerses">Unseparated</span>
+										<span class="button" style="background: #000; box-shadow: none; padding-left: 0; padding-right: 0; cursor: default; width: 1px;">&nbsp;</span>
+										<span id="bibleVerseHorizontalParalelOn" onclick="biblePanel.setHorizontalParalel(true)" class="button tr_NextToParalel">NextToParalel</span>
+										<span id="bibleVerseHorizontalParalelOff" onclick="biblePanel.setHorizontalParalel(false)" class="button tr_BelowParalel">BelowParalel</span>
+										<div class="clear"></div>
+									</div>
+									<div style="border-top: 1px solid #000; padding-top: 10px;">
+										<span onclick="biblePanel.previous()" class="button">&laquo;</span>
+										<span onclick="biblePanel.next()" class="button">&raquo;</span>
+										<div class="clear"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</td>
+				</tr>
+				</table>
+				
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px 0px 0px 0px; height: 1%;">
+				<div style="display: none;">
+					<select id="themePicture" style="font-size: 100%; font-family: times;" onchange="theme.changeTheme('pic')">
+					<option value="">Nincs</option>
+					</select>
+					<select id="themeText" style="font-size: 100%; font-family: times;" onchange="theme.changeTheme('txt')">
+					<option value="vilagos">Világos betű</option>
+					<option value="sotet">Sötét betű</option>
+					</select>
+				</div>
+				<div id="menu" class="buttons noselect">
+					<span onclick="theme.show(); panel.hideMenu();" class="tr_Theme">
+						Theme
+					</span>
+					<span onclick="screenSaver.showBackground(); panel.hideMenu();" class="tr_Background">
+						Background
+					</span>
+					<span onclick="setTimeout(function(){screenSaver.showBlankScreen();}, 100); panel.hideMenu();" class="tr_BlankScreen">
+						Blank Screen
+					</span>
+					<span onclick="extended.show(); panel.hideMenu();" id="extendedButton" title="Two window projection mode for extended desktops" class="tr_Extended tr_title_ExtendedTitle">
+						Extended
+					</span>
+					<span onclick="ownText.show(); panel.hideMenu();" title="Projection of your own text" class="tr_OwnText tr_title_OwnTextTitle">
+						Own Text
+					</span>
+					<span onclick="demo.show(); panel.hideMenu();" title="Randomly playing songs with random backgrounds" class="tr_Demo tr_title_Demo">
+						Demo
+					</span>
+					<span onclick="informationsWindowElement.style.display=''; panel.hideMenu();" class="tr_Informations">
+						Informations
+					</span>
+					<a href="http://sopron.adventista.hu/enekek/letoltes" target="_blank" class="tr_Downloads">
+						Downloads
+					</a>
+					<span onclick="language.show(); panel.hideMenu();">
+						<img id="flag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="lang">
+					</span>
+					<div class="clear"></div>
+				</div>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+<!-- informations window -->
+<table id="informationsWindow" style="position: fixed; left: 10%; top: 10%; width: 80%; height: 80%; background: #ccc; border: 3px solid #aaa; border-radius: 5px; display: none; z-index: 14;">
+<tr>
+	<td style="text-align: center; vertical-align: middle; height: 1%; font-size: 200%;">
+		<div style="position: relative; padding: 5px 10px;">
+			<b class="windowTitle tr_Informations">Informations</b>
+			<span class="button cancel tr_Close" onclick="informationsWindowElement.style.display='none'" style="position: absolute; top: 0; right: 0;">Close</span>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td style="text-align: left; vertical-align: top; height: 99%;">
+		<div style="width: 100%; height: 100%; overflow: auto; color: #444; font-family: arial; font-size: 100%;">
+			<div style="padding: 10px;" class="tr_InformationsContent"></div>
+		</div>
+	</td>
+</tr>
+</table>
+
+<!-- own text window -->
+<table id="ownTextWindow" style="position: fixed; left: 20%; top: 20%; width: 60%; height: 60%; background: #ccc; border: 3px solid #aaa; border-radius: 5px; display: none; z-index: 14;">
+<tr>
+	<td style="text-align: center; vertical-align: middle; height: 1%; font-size: 200%;">
+		<div style="position: relative; padding: 5px 10px;">
+			<b class="windowTitle tr_OwnTextTitle">Projection of your own text</b>
+			<span class="button cancel tr_Close" onclick="ownText.close()" style="position: absolute; top: 0; right: 0;">Close</span>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td style="text-align: left; vertical-align: top; height: 98%;">
+		<div style="width: 100%; height: 100%; color: #444; font-family: arial; font-size: 100%;">
+			<textarea id="ownTextContent" rows="4" cols="40" style="width: 100%; height: 100%; margin: 0; padding: 0; font-family: times; font-size: 200%; font-weight: bold;"></textarea>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td style="text-align: center; vertical-align: middle; height: 1%; padding: 10px; font-size: 200%;">
+		<span class="button tr_Start" onclick="ownText.start()">Start</span>
+	</td>
+</tr>
+</table>
+
+<!-- demo window -->
+<table id="demoWindow" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; z-index: 14;">
+<tr>
+	<td>
+		<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #000; opacity: 0.5;" onclick="demoWindow.style.display='none'"></div>
+		<table style="position: relative; color: #444; font-size: 200%; text-align: center; margin: auto; background: #ccc; border: 3px solid #aaa; border-radius: 5px; padding: 0px; border-spacing: 20px;">
+		<tr><td><b class="windowTitle tr_Demo">Demo</b></td></tr>
+		<tr><td style="border-bottom: 2px solid #888; padding-bottom: 20px;">
+			<span class="button tr_AllLanguage" onclick="demo.setAllLang()" id="demoAllLangButton">All language</span>
+			<span class="button tr_LANGUAGE" onclick="demo.setOnlyCurrentLang()" id="demoCurrentLangButton">English</span>
+		</td></tr>
+		<tr><td><span class="button tr_OneVerse" onclick="demo.start(1)">1 verse</span></td></tr>
+		<tr><td><span class="button tr_TwoVerses" onclick="demo.start(2)">2 verses</span></td></tr>
+		<tr><td><span class="button tr_ThreeVerses" onclick="demo.start(3)">3 verses</span></td></tr>
+		<tr><td style="border-bottom: 2px solid #888; padding-bottom: 20px;"><span class="button tr_AllVerses" onclick="demo.start('all')">All verses</span></td></tr>
+		<tr><td><span class="button cancel tr_Cancel" onclick="demo.close()">Cancel</span></td></tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+<!-- theme window -->
+<table id="themeWindow" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; z-index: 14;">
+<tr>
+	<td>
+		<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; /*background: #000; opacity: 0.5;*/" onclick="theme.close()"></div>
+		<table style="position: relative; color: #444; font-family: arial; font-size: 180%; text-align: center; margin: auto; background: #ccc; border: 3px solid #aaa; border-radius: 5px; padding: 0px; border-spacing: 10px; height: 80%;" class="noselect">
+		<tr><td colspan="2">
+			<div style="height: 100%; overflow: auto;">
+				<div id="themePictureSelect" style="width: 515px;">
+				</div>
+			</div>
+		</td></tr>
+		<tr><td colspan="2" style="height: 1%; text-align: left; padding-top: 5px; padding-bottom: 5px;">
+			<span class="button tr_DarkText" onclick="theme.setDarkText()" id="themeDarkTextButton">Dark text</span>
+			<span class="button tr_LightText" onclick="theme.setLightText()" id="themeLightTextButton">Light text</span>
+		</td></tr>
+		<tr><td style="height: 1%; text-align: left; padding-bottom: 5px;">
+			<span class="button tr_Random" onclick="theme.setRandomTheme(1, 1); theme.show();">Random</span>
+			<span class="button tr_None" onclick="theme.setRandomTheme(0, 0); theme.show();">None</span>
+		</td><td style="height: 1%; text-align: right; padding-bottom: 5px;">
+			<span class="button cancel tr_Close" onclick="theme.close()">Close</span>
+		</td></tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+<!-- language window -->
+<table id="languageWindow" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; z-index: 14;">
+<tr>
+	<td>
+		<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #000; opacity: 0.5;" onclick="language.close()"></div>
+		<table style="position: relative; color: #444; font-family: arial; font-size: 180%; text-align: center; margin: auto; background: #ccc; border: 3px solid #aaa; border-radius: 5px; padding: 0px; border-spacing: 20px;" class="noselect">
+		<tr><td>
+			<div id="languageSelector">
+			</div>
+		</td></tr>
+		<tr><td style="height: 1%; text-align: left; padding-bottom: 5px; text-align: center;">
+			<span class="button cancel tr_Cancel" onclick="language.close()">Cancel</span>
+		</td></tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+<!--canvas id="posCanvas" width="40" height="40" style="position: fixed; bottom: 10px; right: 10px;"></canvas-->
+
+<!-- position list box -->
+<div id="posList" style="position: fixed; left: 0; top: 0; width: 180px; height: 400px; background: #fff; border: 1px solid #000; display: none; z-index: 14; color: #444; font-size: 20px; font-family: arial; font-weight: bold;">
+	<div id="posListContent" style="position: absolute; left: 0; top: 20px; width: 100%; height: 380px; overflow: auto;"></div>
+	<div style="position: absolute; top: 0; right: 0; width: 100%; height: 20px;background: #f00; color: #fff; font-size: 15px; text-align: center; cursor: pointer;" onclick="posListElement.style.display='none';" class="tr_Close">Close</div>
+</div>
+
+<!-- blank screen -->
+<table id="blankScreen" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 15; cursor: none;">
+<tr><td style="text-align: center; vertical-align: middle; color: #444; font-size: 30px; font-family: arial; font-weight: bold;" class="noselect tr_AppName">Hitünk Énekei Lejátszó</td></tr>
+</table>
+
+<!-- info box -->
+<table id="infoBoxFrame" style="position: fixed; z-index: 20; top: 30%; cursor: pointer; display: none;" onclick="infoBox.close()">
+<tr><td id="infoBoxContent" class="noselect" style="font-size: 30px; color: #000; font-weight: bold; text-align: center; background: #ff0; padding: 5px 10px; border-radius: 10px; box-shadow: 0 0 10px #000;"></td></tr>
+</table>
+
+<!-- mouse song selector -->
+<table id="mouseSongSelector" style="position: fixed; z-index: 20; left: 0; top: 0; width: 100%; height: 100%; font-size: 3000%; display: none;" oncontextmenu="return false">
+<tr><td class="noselect" style="text-align: center; background: rgba(0, 0, 0, 0.85); color: #fff; font-weight: bold; text-shadow: 0 0 30px #000;">
+	<div id="mouseSongSelectorNumber"></div>
+	<div id="mouseSongSelectorTitle"></div>
+	<div id="mouseSongSelectorVerses"></div>
+</td></tr>
+</table>
+
+<!-- speed indicator -->
+<div id="speed" style="position: fixed; z-index: 20; display: none; width: 100%; height: 30px; left: 0; top: 9%; opacity: 0.8;">
+	<div style="position: relative; text-align: center; font-size: 50px; color: #000; font-weight: bold;">
+		<span style="background: #ff0; padding: 5px 15px; border-radius: 20px; box-shadow: 0 0 10px #000;"><span class="tr_Speed">Speed</span>: <span id="speedTxt">100%</span></span>
+	</div>
+</div>
+
+<!-- volume indicator -->
+<div id="vol" style="position: fixed; z-index: 20; display: none; width: 100%; height: 30px; left: 0; top: 5%; opacity: 0.7;">
+	<div class="volFrame" style="width: 30%; margin: auto; border: 5px solid #0f0; height: 100%; position: relative; border-radius: 12px;">
+		<div id="volValue" style="width: 100%; background: #0c0; height: 100%; border-radius: 5px;">
+		</div>
+		<table style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; line-height: 100%; border-spacing: 0; border-collapse: separate;">
+		<tr><td id="volValueTxt" style="text-align: center; font-size: 18px; color: #8f8; font-weight: bold; padding: 0;"></td></tr>
+		</table>
+	</div>
+</div>
+
+<!-- audio -->
+<audio id="audio0">
+<source src="resources/blank.mp3" type="audio/mpeg">
+Your browser does not support the audio element!
+</audio>
+
+<audio id="audio1">
+<source src="resources/blank.mp3" type="audio/mpeg">
+Your browser does not support the audio element
+</audio>
+
+<audio id="audio2">
+<source src="resources/blank.mp3" type="audio/mpeg">
+Your browser does not support the audio element
+</audio>
+
+<audio id="audio3">
+<source src="resources/blank.mp3" type="audio/mpeg">
+Your browser does not support the audio element
+</audio>
+
+<script>
+switch (navigator.language) {
+	case 'hu-HU' :
+		document.getElementById('songSelectInfo').innerHTML = 'Betöltés...';
+		document.getElementById('panelSelect').innerHTML = '<div class="panel">Betöltés...</div>';
+		break;
+}
+
+/**
+ * Controller
+ */
+function Controller() {
+	// For loading scripts
+	var scripts = [];
+	var loaded = [];
+	var scriptsOnLoadFn = undefined;
+	
+	var events = {};
+	
+	var _this = this;
+	
+	/**
+	 * Message window
+	 *
+	 * @param string content Content of message text
+	 */
+	this.message = function(content) {
+		alert(content);
+	}
+	
+	/**
+	 * Load a script
+	 *
+	 * @param string   src      Script location without ".js"
+	 * @param function callback Function to call where loaded or error
+	 * @param          param    Pass any type variable to callback function
+	 */
+	this.loadScript = function(src, callback, param) {
+		var script = document.createElement('script');
+		script.onload = function() {
+			// Success
+			if (callback != undefined) {
+				callback(true, param);
+			}
+		}
+		script.onerror = function() {
+			// Error
+			if (callback != undefined) {
+				callback(false, param);
+			}
+		}
+		
+		// Load script avoid browser cache
+		var d = new Date();
+		script.src = src + '.js?' + d.getTime();
+		document.body.appendChild(script);
+	};
+	
+	/**
+	 * Add a script to loading list
+	 *
+	 * @param string src Script location without ".js"
+	 */
+	this.addScript = function(src) {
+		scripts.push('js/' + src);
+		loaded.push(null);
+	};
+		
+	/**
+	 * Set loaded and begin init if all scripts loaded
+	 *
+	 * @param integer scriptIndex Key of loaded array
+	 */
+	var scriptLoadedCallback = function(isSuccess, scriptIndex) {
+		// Set loaded
+		loaded[scriptIndex] = isSuccess;
+		var errors = [];
+		for (var index = 0; index < loaded.length; index++) {
+			if (loaded[index] === null) {
+				return;
+			} else if (!loaded[index]) {
+				errors.push(scripts[index] + '.js');
+			}
+		}
+		
+		if (errors.length == 0) {
+			// All scripts loaded, begin init
+			if (scriptsOnLoadFn != undefined) {
+				scriptsOnLoadFn();
+			}
+		} else {
+			// Error
+			_this.message('Error loading: ' + errors.join(', '));
+		}
+	};
+	
+	/**
+	 * Load all scipts of loading list
+	 */
+	this.loadScripts = function(setScriptsOnLoadFn) {
+		if (setScriptsOnLoadFn != undefined) {
+			scriptsOnLoadFn = setScriptsOnLoadFn;
+		}
+		for (var scriptIndex = 0; scriptIndex < scripts.length; scriptIndex++) {
+			this.loadScript(scripts[scriptIndex], scriptLoadedCallback, scriptIndex);
+		}
+	};
+	
+	/**
+	 * Add an event
+	 *
+	 * @param string eventName Event id
+	 * @param string eventFn   Event function
+	 */
+	this.addEvent = function(eventName, eventFn) {
+		if (events[eventName] == undefined) {
+			events[eventName] = [];
+		}
+		events[eventName].push(eventFn);
+	};
+	
+	/**
+	 * Fire an event
+	 *
+	 * @param string eventName Event id
+	 * @param        param     Pass any type variable to event function
+	 */
+	this.fireEvent = function(eventName, param) {
+		if (events[eventName] != undefined) {
+			for (var i = 0; i < events[eventName].length; i++) {
+				events[eventName][i](param);
+			}
+		}
+	};
+}
+
+var bodyElement = document.getElementById('body');
+var textContentElement = document.getElementById('textContent');
+var infoContentElement = document.getElementById('infoContent');
+var mainWindowElement = document.getElementById('mainWindow');
+var mainWindowPanelElement = document.getElementById('mainWindowPanel');
+var informationsWindowElement = document.getElementById('informationsWindow');
+
+var app = new Controller();
+
+// load scripts
+app.addScript('config');
+app.addScript('storage');
+app.addScript('infoBox');
+app.addScript('extended');
+app.addScript('language');
+app.addScript('panel');
+app.addScript('player');
+app.addScript('songBook');
+app.addScript('songData');
+app.addScript('songPanel');
+app.addScript('mouseSongSelector');
+app.addScript('ownText');
+app.addScript('bibleData');
+app.addScript('bibleSelector');
+app.addScript('biblePanel');
+app.addScript('screenSaver');
+app.addScript('controls');
+app.addScript('demo');
+app.addScript('presenter');
+app.addScript('theme');
+app.addScript('tools');
+
+app.loadScripts(function(){
+	storage = new Storage();
+	infoBox = new InfoBox();
+	extended = new Extended(extendedSendStatus, extendedReceiveStatus, extendedReceiveMessage);
+	language = new Language(function(){
+		screenSaver = new ScreenSaver();
+		theme = new Theme();
+		panel = new Panel();
+		songData = new SongData();
+		songBook = new SongBook(function(){
+			player = new Player();
+			songPanel = new SongPanel();
+			mouseSongSelector = new MouseSongSelector();
+			demo = new Demo();
+			ownText = new OwnText();
+			bibleData = new BibleData();
+			biblePanel = new BiblePanel();
+			controls = new Controls();
+			presenter = new Presenter();
+		});
+	});
+});
+</script>
+</body>
+</html>

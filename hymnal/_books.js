@@ -1,0 +1,19 @@
+HYMNAL_VERSION = '2.0';
+DEFAULT_BOOK = false;
+
+book['hitunk-enekei'] = { title: 'Hitünk Énekei', abbreviation: 'HÉ', lang: 'hu' };
+book['tovabbi'] = { title: 'További énekek', abbreviation: 'T', lang: 'hu' };
+book['sda-hymnal'] = { title: "Seventh-Day Adventist Hymnal", abbreviation: "SDAH", lang: "en" };
+//book['hitunk-enekei-2'] = { title: "Hitünk énekei 2", abbreviation: "HÉ2", lang: "hu" };
+book['nuevo-himnario-adventista'] = { title: "Nuevo Himnario Adventista", abbreviation: "NHA", lang: "es" };
+book['hymnes-et-louanges'] = { title: "Hymnes et Louanges", abbreviation: "HEL", lang: "fr" };
+book['udv-es-adventi-enekek'] = { title: "Üdv- és Adventi Énekek", abbreviation: "ÜÉAÉ", lang: "hu" };
+book['adventista-enekeskonyv'] = { title: "Adventista Énekeskönyv", abbreviation: "AÉ", lang: "hu" };
+//book['ifjusagi-enekek'] = { title: "Ifjúsági énekek", abbreviation: "IÉ", lang: "hu" };
+book['imnuri-crestine'] = { title: "Imnuri Creștine", abbreviation: "IC", lang: "ro" };
+book['imnuri-amicus'] = { title: "Imnuri Amicus", abbreviation: "IA", lang: "ro" };
+book['imnuri-companioni'] = { title: "Imnuri Companioni", abbreviation: "IC", lang: "ro" };
+book['imnuri-exploratori'] = { title: "Imnuri Exploratori", abbreviation: "IE", lang: "ro" };
+book['imnuri-licurici'] = { title: "Imnuri Licurici", abbreviation: "IL", lang: "ro" };
+book['imnuri-tineret'] = { title: "Imnuri Tineret", abbreviation: "IT", lang: "ro" };
+//book['regi-adventi-enekek'] = { title: 'Régi Adventi Énekek', abbreviation: 'RAÉ', lang: 'hu' };

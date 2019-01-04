@@ -1,0 +1,361 @@
+Hitünk Énekei Lejátszó
+
+Program-v2.0.1b 2018-11-24
+Egyes énekeknél (a Hitünk Énekein kívüli könyvekben) az adatbázisban a refrén nincs beleírva a a versszakokba, hanem külön adatként szerepel. A program ezt nem jelenítette meg. Most már kiírja az így megadott refrént minden versszak végére.
+
+Program-v2.0.0b 2018-11-16
+Elsõ beta verzió.
+
+Windows alkalmazás v1.4 2018-11-09
+Telepítéskor a fájl letöltés cache-lõdött a 2-es verzió óta, ez a verzió kikerüli a cache-t.
+
+Program-v1.39 2018-11-09
+A címek kiírása az énekválasztó képernyõn módosítva lett úgy, hogy ha van benne per jel, onnantól már kipontozza.
+
+Adatbázis-v1.13 2018-11-09
+Az ének adatbázis szövege össze lett vetve egy javított forrással, sok helyen javítva lett.
+
+Adatbázis-v1.12 2018-11-08
+Az ének adatbázis szöveg tartalma le lett cserélve egy másik forrásból származó szöveg tartalomra. Az új szövegek soronként tagolva vannak. Sok hiba javítva lett a szövegekben. Nincsenek összegyûjtve a javítások, mert sok volt. (Volt olyan is, hogy versszak hiányzott valamelyik énekbõl.)
+
+Program-v1.38 2018-10-21
+A hanganyagnál a fade out ki lett szedve. Ha a böngészõ furán mûködük, elronthatja a zene hangerejét. Elõjött valami ilyesmi probléma, de lehet, hogy csak kontakt hiba volt az erõsítésnél. Biztonság kedvéért inkább kiszedve, hogy véletlenül se történhessen ilyen, bár esély nem nagyon volt rá. Egyébként ez nem volt lényeges funkció. Fontosabb a megbízhatóság.
+
+Adatbázis-v1.11 2018-10-08
+208. ének. 1. versszakában javítás: "megnyuszom" helyett "megnyugszom"
+
+Program-v1.37 2018-10-05
+Sebesség állításnál ha a énekválasztó képernyõn beírtunk egy másik éneket, aztán visszamentünk az ének vetítõ képernyõre, és ott állítottunk sebességet, akkor árváltott az újonnan beírt énekre - javítva.
+Egy cím szerinti objektum átadás javítva - eddig nem tûnt fel, hogy hibát okozna, de biztosabb, ha javítva van.
+Egy helyen esélyes volt, hogy lokális változó helyett globális változóként kezel egy változót, ami problémát okozhatott - eddig nem tûnt fel, hogy hibát okozna, de biztosabb, ha javítva van.
+Pár kisebb hiba javítva.
+
+Adatbázis-v1.10 2018-10-05
+12 hiba javítva:
+- 15. 9. indent -> mindent
+- (17. kórus) - nem hiba, csak feljegyzés
+- 19. 8. versszak hiányzott: "Mily jó, hogy ott van Isten jobbján hû Megváltóm és örök szószólóm; Mert igen s ámen minden benne, mit hitben mond el hõ imádságom. Ím zengjen, Uram néked dicsõség, hisz tõled jõ az örök üdvösség!"
+- 33. 5. Napfény -> Napfényed
+- 34. 9. verszak második fele hiányzott
+- 41. 8. verszak második fele hiányzott
+- 79. 13. verszak hiányzott
+- 94. 1. verszakban fénes -> fényes
+- (112. éneknél jelezve, hogy az elsõ és második versszak ugyan az, az énekeskönyvben is - ez hiba?)
+- 114. 10. orcám -> orcád
+- 140. 2. mindket -> minket
+- 223. 2. Szívemet megnyitom -> Szívemet néked megnyitom
+- (260. kórus) - nem hiba, csak feljegyzés
+- 291. 4. hisz por vagyok én ->  hisz por és hamu vagyok én
+- 354. 1. végérõl hiányzott a pont
+- (356, 386, 397, 401, 402, 403, 404, 410, 411, 414, 415, 417, 419, 420, 422, 423, 424, 425, 427, 429, 431, 432, 433, 434, 437, 438, 439, 441, 442, 443, 444, 446, 449, 450, 451, 452, 453, 454, 458, 460, 461. kórus) - nem hiba, csak feljegyzés
+- (463. enterek) - nem hiba, csak feljegyzés
+- (466, 469, 470, 471, 472, 473, 475, 476. kórus) - nem hiba, csak feljegyzés
+
+Program-v2.00a 2018-10-04
+El lett kezdve egy újabb fõverzió, még nem elérhetõ. Nem lesz kompatibilis az 1-es fõverzióval. Több énekeskönyvet és több nyelvet is kezelni fog, jelentõsen át lesz alakítva a program felépítése.
+
+Program-v1.36 2018-10-02
+Szünet esetén a jobb felsõ sarokban a play gomb kint maradt, ha utána Csak szöveg móddal indítottunk egy éneket - javítva.
+A 393. éneket nem lehetett lejátszani (hibásan kezelte a feldolgozott tömböt a program) - javítva.
+
+Program-v1.35 2018-09-30
+Alul a linkek helyett egy alsó gombsor lett.
+Szünetkor a Folytatás felirathelyett Szünet lett.
+A Demonál lehet már választani, hogy hány versszakot játszon le az énekekbõl.
+Az énekvariációknál az elsõ változatot nem jelezzük már külön "/a" jelöléssel. (501, 501/b)
+Bele lett rakva, hogy ha nem tud elindulni a böngészõ korlátozása és hiányossága miatt a zene (nem támogat rendesen eseményeket, betöltés elején nem indítja el és csak felhasználói eseményre indítja a lejátszást), akkor kiírja, hogy kattintson a lejátszás aktiválásához (ilyenkor remélhetõleg el tud majd indulni).
+Be lett állítva indításkor az audio tagben az autoplay - hátha így jobban elindul azokban a böngészõkben, amik nem mûködnek rendesen.
+Néhány kisebb hiba javítva.
+
+Program-v1.34 2018-09-21
+A sessionStorage nem mûködött megbízhatóan, vissza lett váltva localStorage-ra.
+Az X billentyûvel és a középsõ egér gomb kattintással a képernyõ elsötétítés nem ment át a kiterjesztett ablakra - javítva.
+
+Program-v1.33 2018-09-21
+Mobil nézeten az énekválasztó oldalon szünetkor a play ikon a jobb fölsõ sarokban túl kicsi volt - javítva.
+A kiterjesztett mód localStorage helyett sessionStorage-t használ.
+A kiterjesztett ablak új tab helyett ablakban nyílik meg.
+Alert ablakban hibaüzenettel jelezve van, ha IE-ben helyi géprõl futtatjuk a kiterjesztett módot, mert ilyenkor ez nem fog mûködni, mert az IE böngészõ nem engedi azt a funkciót, amivel a program megoldja.
+Ikon kikerült az énekválasztó oldalra a bal felsõ sarokba.
+Verziószám link title-je megváltoztatva.
+
+Program-v1.32 2018-09-20
+Már van kiterjesztett nézet (2 ablak: egyik a kezelõfelület, másik a kivetítõ felület), a linkeknél a Kiterjesztett linkre kattintva érhetõ el.
+Van saját szöveg megadási lehetõség, amit vetíteni lehet: linkaknél a Saját szöveg link. Üres sorral lehet tagolni az oldalakat, az elsõ a cím.
+Az énekválasztó képernyõre szünet esetén a pause gomb helyére kikerült egy play gomb.
+Van többféle sebességállítási lehetõség: 20%, 25%, 30%. Késõbb lehetséges, hogy csak az egyik lesz meghagyva, amikor kiderül, hogy melyik a legjobb.
+A hangerõ állítása mostantól 5%-onként történik.
+Több kisebb hiba javítva.
+
+Adatbázis-v1.9 2018-09-20
+198. ének. 1. versszakában javítás: "ert" helyett "mert"
+164. ének. 1-4. versszakokban javítás: "szívünk" helyett "szívem"
+
+Program-v1.31 2018-09-19
+Az énekválasztó képernyõn a lenti linkeknél lett egy Demo link, amire kattintva véletlenszerûen lejátsza az énekeket folyamatosan, véletlenszerû hátterekkel. (mindig csak 1 versszakot, bejátszással; a nem feldarabolt hanganyagoknál az egészet)
+A szünet gombról a kijelölhetõség le lett véve.
+Üres háttér megjelenítése után a visszatéréskor az infó sáv megjelent (nem odaillõ szöveggel) akkor is, ha még nem volt lejátszva semmi - javítva.
+Pár jelentéktelen hiba javítva.
+
+Program-v1.30 2018-09-17
+A nem feldarabolt hanganyagú énekeknél a Csak szöveg egyben módnál volt egy hiba (nem írt ki biztosan minden szövegrészt) - javítva.
+
+Program-v1.29 2018-09-17
+A programban az énekszámok kezelése át lett alakítva, hogy rendesen tudjon énekvariációkat kezelni.
+A további énekek sorszámozásán kis változtatás történt. (502 átnevezve 503/b-re, 502 helyett új ének)
+
+Program-v1.28 2018-09-15
+Lehet hozzáadni további énekeket úgy, hogy nem kell feldarabolni a hanganyagot. Helyette egy verssazkba kell rakni az ének teljes szövegét, és a szövegrészek elejénél megadni, hogy mikor jelenjenek meg, pl:
+<!--10-->           Elsõ         (a <!-- és --> jelek között a megjelenés másodpercét kell megadni)
+<!--30.4-->         Második      (tört másodperc megadás is lehetséges, így akár ezredmásodpercre pontosan is lehet)
+<!--50|Refrén:-->   Harmadik     (lehet | jel után megjegyzést is írni hozzá, pl versszak számanak vagy refrén kijelzésére)
+<!--1:00-->         Negyedik     (perc:másodperc megadási forma)
+<!--1:10.7-->       Ötödik
+<!--1:30|Refrén:--> Hatodik
+<!--95-->           Hetedik      (egy perc fölötti idõt simán másodpercben is meg lehet adni)
+<!--118.2-->        Nyolcadik    (itt is lehet tört másodperc)
+Lejátszás közben a P billentyûvel lehet pozíciókat listába kimenteni.
+A szövegek megjelenése a megadott idõhöz képest picivel elõbb történik, hogy legyen idõ elolvasni és ne késsünk le a következõ szövegrész elejérõl.
+Az nem feldarabolt hanganyagú énekek óra ikonnal vannak jelölve.
+
+Program-v1.27 2018-09-13
+Lehet a zenék sebességén gyorsítani. Lejátszás közben az S billentyût kell megnyomni vagy jobb egér gombbal kattintani. A hanganyagok megvannak mégegy változatban, amiben fel vannak gyorsítva, ezért ezzel plusz kb fél GB lesz a hanganyagok mérete. Külön zip-ben lesz majd elérhetõ a gyorsítás, amit csak be kell másolni a program mappájába. A gyorsított hanganyag mappájában van egy sebesseg.js fájl, amiben meg lehet adni énekeket, amik alapértelmezetten ilyen sebességgel induljanak el. (aindításkor kijelzi a program, ha nem normál sebességgel indítja az éneket)
+
+Program-v1.26 2018-09-07
+Az énekválasztó képernyõn a balra/jobbra nyíl billentyûkkel lehet változtatni az ének variációját.
+A képernyõ elsötétítés tabulátor helyett az X billentyûre lett átrakva, mert Alt+Tab esetén néha bezavart.
+
+Program-v1.25 2018-09-06
+A program tud énekvariációkat kezelni: egy énekhez tartozhat több hanganyag, amiket a, b, c, stb. betûkkel jelöl, pl.: 125/b.
+(Ez hasznos lesz, ha páldául egy lassan lejátszott énekhez lesz újabb hanganyag, ami gyorsabban van játszva - ekkor majd lehet választani közülük. Vagy akkor is jó lesz, ha egy énekhez lesz más hangszereléssel is hanganyag.)
+Az énekválasztó panel egy picit szélesebbre lett véve.
+A versszakok felsorolása egységesítve lett. (voltak vesszõvel elválasztott számok és szóközzel elválasztott sorszámok is, az utóbbi lett mindenhol)
+
+Program-v1.24 2018-09-05
+Lista lejátszásakor, ha töröltük a listáról az éppen lejátszás alatt lévõt, akkor az ének végeztével elkezdte lejátszani elejérõl a listát. Javítva lett, ilyenkor az ének végeztével meg fog állni.
+A téma változtató és képernyõ elsötétítõ gyorsbillentyûkhöz be lett rakva, hogy ctrl/alt/shift/windows gombokkal együtt ne reagáljanak.
+Az énekek listájában szürke színnel vannak jelölve, amikhez nem tartozik zene.
+
+Windows alkalmazás v1.3 2018-09-04
+Idõnként telepítéskor elõfordult hiba és már az elején leállt - javítva.
+Kisebb lett az exe fájl mérete.
+
+Program-v1.23 2018-09-03
+A további énekek, amik a Hitünk Énekeiben nincsenek benne, kiszervezésre kerültek az ének adatbázisból a tovabbi mappába.
+Ezentúl lehet viszonylag egyszerûen saját énekekkel is bõvíteni a további énekeket, lásd: tovabbi/tovabbi1.js
+Egyéb kisebb hibajavítások.
+
+Adatbázis-v1.8 2018-09-03
+3. ének. 2. versszakában javítás: "Te vagy, Atyánk,örök" helyett "Te vagy, Atyánk, örök"
+További énekek érhetõk el, ezek már nem az ének adatbázisban lesznek elhelyezve:
+500. éneknek bekerült: Áldott reménység.
+501. éneknek bekerült: Tüzed, Uram, Jézus.
+502. éneknek bekerült: A mennyben fenn a trónusnál.
+
+Program-v1.22 2018-09-03
+Tabulátorra és középsõ egér kattintásra képernyõ elsötétítés.
+Énekválasztó képernyõn 2 új lehetõség: Háttér (csak a hátteret mutatja), Elsötétítés (képernyõt elsötétíti).
+Információk és Letöltés link meg lett cserélve.
+Versszak váltásnál a fade-out picit javítva lett, hogy ha belassul a gép, akkor kisebb eséllyel maradjon kint halványan a betû az ének legvégén egy pici idõre.
+A 3 versszak egyben lejátszási mód ki lett szedve. Helyette lett Lejátszási listára gomb. Ezzel a kiválasztott éneket a kiválasztott versszakokkal lejátszási listára lehet helyezni. Az "Ének:" blokk alatti legördülõt lenyitva lehet látni a lejátszási listát.
+Ha az Információk nyita volt vagy az énekválasztó képernyõn a legördülõ, akkor az egér scrollal nem lehet hangerõt változtatni; de ilyenkor a szöveges képernyõn se lehetett - javítva.
+Gyorsbillentyûk a téma változtatásához: Q, W, E, R, T.
+Egyéb kisebb javítások.
+
+Program-v1.21 2018-08-25
+Versszak váltásnál, amikor az utolsó lejátszott versszaknál volt bejátszás (pl összesen 1 versszak lejátszása, vagy az utolsó elõtt szünet), a fade-in nem mûködött jól, halvány volt, aztán hirtelen jelent meg - javítva.
+Ha mobilon a touch lapozás közben váltódott következõ versszakra, akkor kint maradt a nyíl - javítva.
+Az információk rész bövítve lett egy sorral (énekek szövegében keresés).
+
+Adatbázis-v1.7 2018-08-25
+14. ének 2. versszakában javítás: "kürben" helyett "kürtben"
+
+Program-v1.20 2018-08-24
+Kattintásra a teljes képernyõre váltás nem mûködött minden böngészõben - javítottam rajta.
+Mobil nézetben az alsó infó sávról a hover kiemelés le lett szedve.
+Az alsó infó sáv háttere mobil nézetben 20% sötétítés helyett 20% világosításra lett állítva, mert szünetkor sötét betû esetén alig látszódott a betû a sötétebb háttér miatt.
+Valamilyen böngészõben a lejátszás indításakor nem váltott automatikusan teljes képernyõre - javítva.
+Versszak elején a fade-in ki lett véve, mert hassú eszközön darabosan hangosította, ami zavaró lehetett. Versszak végén a fade-out (halkítás) benne lett hagyva.
+Bizonyos eszközökön és böngészõkben csak felhasználói eseményre indult el a lejátszás. Ez meg lett trükközve, így nem kell már pluszba kattintani. (Lett egy üres blank.mp3, amivel a háttérben aktiválja a lejátszás indító gombok kattintás eseményében.)
+Androidon egyes böngészõkben az énekválasztó képernyõ második fenti blokkjában lévõ éneklista becsuokott állapotban lévõ nem látszódó további elemeit a gombokra kattintáskor a böngészõ kiemelte, ami zavaró volt - megoldva.
+
+Program-v1.19 2018-08-23
+Versszak váltásnál a következõ versszak szövegét 1.5 másodperccel elõbb mutatja már.
+Versszak váltásnál a szöveg halványodik és világosodik, hogy jobban észrevehetõ legyen a váltás és jobban nézzen ki.
+Hosszú szavaknál elõfordult ritkán, hogy kilógott a képernyõrõl és nem látszódott a vége, mert az automatikus méretezésnél csak a magasságot vette figyelembe - javítva.
+Az ének befejezõdésének legvégén volt egy javascript error - javítva.
+
+Program-v1.18 2018-08-22
+A legnagyobb betûméret megtalálása gyorsítva lett, felezéses kereséssel mûködik most.
+A legnagyobb betûméret 200px-rõl 400px-re lett növelve.
+
+Program-v1.17 2018-08-21
+Lassú böngészõben (pl androidos telefonon) következõ versszaknál valamikor elõbb elindult a hang és utána jelent meg a szöveg, mert lassú volt a kiírás. Most már olyan, hogy elõbb kiírja és utána indítja a hanganyagot.
+Lejátszás módban lapozáskor valamikor nem ment vissza a zene az elejére (lassú eszközön, pl androidos telefonon jött elõ) - javítva.
+Elmenti a localStorage -ba a téma beállításokat.
+Androidon a zene elindítással még volt egy kis probléma - javítva.
+
+Adatbázis-v1.6 2018-08-20
+65. ének 1. versszakában javítás: "éhessenek" helyett "élhessenek"
+Új fájl: blank.mp3
+
+Program-v1.16 2018-08-20
+Háttérképek listája külön lett véve a programtól. A kepek/kepek.js -ben található. Mostantól külön zip-ben lehet letölteni a képeket.
+Androidon valamilyen böngészõben az audio csak kattintás eseményre aktiválódik, ezért nem játszotta le. Be lett építve, hogy figyelmeztessen ilyenkor, hogy kattintani kell az aktiváláshoz, és innentõl már megy a lejátszás.
+Énekválasztó felsõ blokkjának az aktív háttérszíne kicsit módosítva lett.
+A hangerõ állítás kijelzésének kerete le lett kerekítve.
+
+Program-v1.15 2018-08-19
+Mobilos nézeten alsó infó sáv színének javítása.
+Infó sávból "versszakok:" szöveg leszedve, hogy mobilos nézeten ne legyen túl hosszú.
+Mobilos nézeten alsó infó sávon kijelölhetõség letiltva.
+Énekválasztó átméretezésen javítás.
+Automatikus elsötétedésnél alatta lévõ bombra kattinthatóság javítása.
+
+Program-v1.14 2018-08-19
+Androidon valamilyen böngészõben az automatikusan elsötétített képernyõnél, ha kattintottunk, lefutott az elsötétített képernyõ alatti gomb kattintás eseménye - javítva.
+A program megnyitásakor, ha nem volt semmilyen tevékenység, egér mozgás sem, akkor az automatikus elsötétetés nem aktiválódott - javítva.
+Keresésnél most már a találatoknál kiírja a találta szavak szövegkörnyezetét is.
+A "vers" szövegeket átírtam a programban "versszak"-ra.
+Már vannak témák (jelenleg 32 háttérkép, világos és sötét betû választás).
+
+Program-v1.13 2018-08-17
+iPhone és iPad eszközökön is úgy viselkedik már, mint androidon.
+Safari böngészõben az alsó infó sávval a képernyõ váltás nem nagyon mûködött lejátszás közben - az mobilos nézet megjavította.
+Mobilon és tableten gond volt az automatikus képernyõ elsötétítéssel, mert nem volt egér mozgatás esemény és nem lehettett visszahozni - kattintásra is jó már.
+Az énekválasztó képernyõn alul nagyobb margó lett, hogy ha megy közben a lejátszás, akkor az infó sáv ne takarjon bele.
+Lehet ének szövegére keresni, ha az énekválasztó képernyõn a felsõ blokkra kattintunk (amiben a kiválasztott ének számát és kiválasztott verseket jeleníti meg).
+A Csak szöveg módban a jobb egér gombbal lapozás bizonyos böngészõben (iOS: Safari) máshogyan mûködött - javítva.
+A Csak szöveg módban az utolsó üres lapról visszalapozva bal egér gombbal duplán kattintva kijelölõdtek a szövegek - javítva.
+
+Windows alkalmazás v1.2 2018-08-10
+Nem tudta indítani a HTML alkalmazást böngészõvel, ha a mappanévben szóköz volt - javítva.
+
+Adatbázis-v1.5 2018-08-10
+84. ének 2. versszakában javítás: "úr" helyett "Úr"
+56. ének 3. versszakában javítás: "Rá" helyett "rá"
+280. ének 7. versszakában javítás: "Rá" helyett "rá"
+367. ének 7. versszakában javítás: "Rá" helyett "rá"
+
+Windows alkalmazás v1.1 2018-08-09
+Ékezetes könyvtárnevekkel problémák voltak - javítva
+
+Windows alkalmazás v1.0 2018-08-08
+Elkészült a Windows alkalmazás
+
+Program-v1.12 2018-08-08
+Betûméret meg lett vastagítva és a margók le lettek szedve, hogy minél jobban látható legyen a szöveg.
+
+Program-v1.11 2018-08-08
+A szöveg automatikus méretezésén kicsit javítva lett, hogy androidon az alsó sáv ne lógjon rá a szövegre.
+A pause gomb androidon átlátszó lett és kicsit kisebb.
+Internet Explorerben a Firefoxban nem mûködött az egér scrollal való hangerõ állítás - javítva.
+Internet Explorerben kicsit máshogyan mûködött az audio lejátszás, ezért elsõ indításkor hiba volt - javítva.
+
+Program-v1.10 2018-08-05
+Érintéses lapozás beépítve, telefonon is lehet már így lapozni.
+Android esetén a pause gomb nagyobb és nem tûnik el, az alsó infó sáv is nagyobb.
+Énekszám beírásakor az ugyan olyan dallamúakat is listázza, dõlt betûvel és zárójelben hangjegy jelezve.
+Jelzi a listában a hibás éneket.
+
+Adatbázis-v1.4 2018-08-05
+193. ének 1. versszakában javítás: "jó a hõs" helyett "jõ a hõs"
+110. ének 4. versszakában javítás: "vígadunk" helyett "vigadunk"
+Hibás énekrõl infó bekerült, hogy jelezni lehessen.
+
+Adatbázis-v1.3 2018-08-03
+84. ének 1. versszakában javítás: "mennyen örök király" helyett "mennyen az örök király"
+
+Program-v1.9 2018-08-03
+Lett ikonja a programnak.
+Firefox böngészõben vers választó oldal átméretezésének javítása.
+
+Program-v1.8 2018-08-02
+Az Információk szövegében javítva lettek dolgok, amik már nem voltak aktuálisak az újabb verzióban.
+Kint maradt az Információk, ha meg volt nyitva és alul váltottunk a lejátszás nézetre - javítva.
+Amikor legördülõbõl választottunk éneket, a vers kiválasztást nem törölte - javítva.
+Szünet után a folytatás képernyõn a címet nem az elsõ versszakból vette.
+
+Adatbázis-v1.2 2018-08-02
+224-244 közötti énekek szövege el volt számozva - javítva.
+383. ének 1. versszakában javítás: "dõdben" helyett "idõdben"
+280. ének 11. versszakában javítás: "dícséred" helyett "dicséred"
+384-es és 387-es ének szövege hiányzott.
+Az összes 393 ének fel van dolgozva, így már teljes az ének adatbázis.
+!! Felfedeztem, hogy a 362. ének hanganyaga hiányos! Az elsõ rész van csak benne, ami ismételve van, a végén lévõ másmilyen dallamú 4 sor nincs lejátszva benne. !!
+
+Program-v1.7 2018-08-02
+Ének vetítésekor bejátszás közben a címben javítva lett (a végén a "..." elõtt ha ":" van, ott hagyta, már eltünteti)
+Lejátszás közben az egér eltüntetésével együtt a jobb felsõ sarokban lévõ pause gombot is eltünteti.
+Ha lejátszáskor kint maradt volna a Betöltés felírat, visszamenve, szöveges módban indítva is ott hagyta - javítva.
+Csak szöveg nézetben, ha 1 versszakos volt az ének és a végén az üres képernyõre lapoztunk, nem lehetett vissza lapozni - javítva.
+Ha az ének 1 versszakos volt, akkor elsõ indításkor nem mutatta az elsõ képernyõt egybõl, csak ha a képernyõ újra lett rajzolva - javítva.
+Egy versszakos éneknél a kezdõ sáv helyett a befejezõ sávot játsza.
+Zenés lejátszásnál is be lett rakva a végére az üres képernyõre ugrás, de rá lapozni nem lehet.
+Feldolgozottság kijelzés le lett szedve, mert már nem lesz rá szükség, mert kész az ének adatbázis (és egyébként nem is számolt jól).
+Képernyõ elsötétedéskor egér kurzor eltüntetés.
+Az énekválasztóhoz bekerült az énekek listázása, így az ének legördülõ listából is választható (szövegre keresni még csak Ctrl+F -el lehet).
+Az énekek be lettek kategorizálva a könyv alapján.
+Ének adatbázis js fájl betöltése olyan módon, hogy ne cache-bõl töltõdjön be.
+Kisebb hibák javítása.
+
+Adatbázis-v1.1 2018-07-31
+75. ének 1. versében javítás: "jesszének" helyett "Jesszének"
+78. ének 5. versében javítás: "menynek" heylett "mennynek"
+Az elsõ 210 ének fel van dolgozva.
+
+Program-v1.6 2018-07-31
+A verszak szövegének automatikus képernyõt kitöltõ betûmérezetése gyorsítva lett.
+
+Program-v1.5 2018-07-30
+Versszak elején a fade-in 0.05 mp lett, végén a fade-out 0.5 mp.
+
+v1.4 2018-07-29
+lapozhato.js beleépítve az enekek.js -be
+Szöveg automatikus méretezésnél egy js hiba javítva.
+Csak szöveg nézetben a lapozás végére bekerült egy üres képernyõ, hogy a végén el lehessen tüntetni a szöveget.
+Az ugyanolyan hanganyagú énekeknél az mp3 fájlok csak egyszer szerepelnek, így kisebb a hanganyagok mérete, és így kevesebb hanganyagot kell feldolgozni.
+Feldolgozottság kijelzése jobb lett.
+Két hiba javítva az énekek kövegében:
+- 34. ének 2. versében: "Nevedet õk is. kik által" helyett "Nevedet õk is, kik által"
+- 164. ének 4. versében "töltse meg" helyett "töltsed meg"
+A hanganyag mappa át lenn nevezve enekek-re, és bele lett rakva az enekek.js - így a tartalom elkülönítve van tárolva a programtól.
+A program és az ének adatbázis külön lett választva, külön verzióvan vannak ellátva, külön lehet letölteni õket.
+Hiányzó ének adatbázis kijelzése.
+Induláskor "Betöltés..." kiírása.
+Betöltés kijelzés méret javítva.
+
+v1.3b 2018-07-27
+Az információk txt fájlból átkerül a programba, és javítva illetve kiegészítve lettek benne dolgok.
+Néhány helyesítási hiba javítva lett.
+Teljesen HTML5-re alakítva, validálva.
+Átméretezés álló módban kitölti a szélességet. (telefonon így használhatóbb; viszont úgy tûnik, a zoom css nem mûködik minden telefonos böngészõben, ezért telefonon az átméretezéssel lehetnek problémák)
+A program megnyitásakor jelzi, ha a böngészõ nem támogatja az MP3-mat.
+Versválasztónál fent és lent kicsit nagyobbra lett véve margó.
+Énekszám billentyûzettel beírásakor, ha visszatörlést nyomtunk (backspace), akkor valamelyik böngészõnél átugrott az elõzõ oldalra - javítva lett.
+Cache letiltva.
+Lejátszáskor versszak váltásnál nem halkítja már le teljesen. (1 tizedmásodperc fade-in és fade-out van, 70%-osan lehalkítva)
+Szövges nézetben bekapcsolt a 1 perc tétlenség utáni elsötétedés - javítva.
+Az 1 - 40. énekig fel van dolgozva.
+
+v1.2b 2018-07-26
+Az elõzõ verzióban az mp3 mappában volt az összes vágatlan ének, a hanganyag mappában pedig a megvágottak. Mostantól csak a hanganyag mappa lesz, a megvágottaknak már nem lesz megtartva a vágatlan mp3 fájl, mert feleslegesen sokat foglalna.
+Belekerült egy betöltés kijelzés, ha sokáig tartana a hanganyag betöltése, pl. mobil net esetén.
+Feldolgozottság megjelenítve az ének választó alatt.
+Felkerült az Információk link.
+Az ablak átméretezésnél lejátszó módban nem állította be újra a betûméretet - javítva.
+Felkerült a program az egyházi szerverre, minden énekszám hanganyaga fel lett másolva. Továbbra is 2 ének van feldolgozva, amit versszakonként lehet vetíteni.
+Egy jövõbeli verzióban a html-t teljesen html5-ösíteni kéne, mert most még ez nem tökéletes.
+
+v1.1b 2018-07-25
+Több Androidos böngészõ nem futtatta az eventeket, ezért nem akart elindulni magától a zene. Raktam bele olyat, hogy figyeli, hogy ha mennie kéne de nem megy, akkor indítsa el.
+
+v1.0b 2018-07-24
+Át lett alakítva olyanra, hogy az mp3-makat versszakonként szétdarabolva kezelje, így megbízhatóbban mûködik a különféle böngészõkön.
+Ha egy ének kevesebb, mint 3 versszak és az mp3 még nincs feldarabolva versszakokra, akkor annál 3 versszakot játszik le, mert az mp3-makban minden éneknél 3 versszak van.
+Sokféle apró bug javítva lett.
+Egyelõre próbaképpen 2 ének van így elkészítve: 17, 18
+A tárhelyre még csak néhány ének van felmásolva: 1-20, 26, 157, 164 (tárhelyet kell keresni, ahova minden felfér; célszerû lenne az egyházi szerver, ha kapok erre tárhelyet)
+
+v1.0a 2018-07-15
+Elsõ próbaverzió. Az mp3-makon belül a versszakok pozíciói voltak megadva, ez alapján játszotta le. Androidon nem volt megbízható.

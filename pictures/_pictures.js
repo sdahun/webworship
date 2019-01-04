@@ -1,0 +1,37 @@
+// Background pictures
+
+PICTURES_VERSION = '2.0';
+
+picture['bible-1'] = {};
+picture['bible-2'] = {};
+picture['bible-3'] = {};
+picture['bible-4'] = {};
+picture['bible-5'] = {};
+picture['bible-6'] = {};
+picture['forest'] = {};
+picture['clouds-1'] = {};
+picture['clouds-2'] = {};
+picture['clouds-3'] = {};
+picture['grassy-and-rocky-circles'] = {};
+picture['dove-1'] = {};
+picture['dove-2'] = {};
+picture['dove-3'] = {};
+picture['dawn-mountains'] = {};
+picture['dewy-grass'] = {};
+picture['mountain-and-forest'] = {};
+picture['waves'] = {};
+picture['small-pine'] = {};
+picture['bay'] = {};
+picture['palm-branch'] = {};
+picture['flying-birds'] = {};
+picture['island'] = {};
+picture['rainbow-circle'] = {};
+picture['landscape-with-waterfall'] = {};
+picture['sea-and-sun'] = {};
+picture['starfish'] = {};
+picture['beach'] = {};
+picture['flower-1'] = {};
+picture['flower-2'] = {};
+picture['water-flowing'] = {};
+picture['waterfall'] = {};
+picture['lamb-1'] = {};
