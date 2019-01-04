@@ -118,7 +118,7 @@ function Extended(sendStatusFn, receiveStatusFn, receiveMessageFn) {
 		presenter.refresh();
 		extendedWindow = window.open('?mode=extended', 'hel_extended', 
 			'left=0,top=0,width=640,height=480' + 
-			',menubar=no,scrollbars=no,titlebar=no,status=no,resizable=yes,toolbar=no,location=no,channelmode=no,directories=no,fullscreen=no');
+			',menubar=no,scrollbars=no,titlebar=no,status=no,resizable=yes,toolbar=no,location=no,channelmode=no,directories=no');
 		startMessageSender();
 	}
 
