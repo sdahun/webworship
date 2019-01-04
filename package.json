@@ -1,0 +1,53 @@
+{
+  "name": "webworship",
+  "version": "2.0.2",
+  "description": "Church presenter application in html, css and vanilla js",
+  "main": "desktop-main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "repository": "https://github.com/sdahun/webworship",
+  "keywords": [
+    "worship",
+    "church",
+    "presenter"
+  ],
+  "author": {
+    "name": "Csongor Szabó",
+    "email": "vizslancs@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Zsolt Szabó",
+      "email": "szabo.zsoltnak@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^3.0.13",
+    "electron-builder": "^20.38.4"
+  },
+  "build": {
+    "appId": "com.electron.webworship",
+    "productName": "WebWorship",
+    "directories": {
+      "buildResources": "resources"
+    },
+    "files": [
+      "**/*",
+      "resources/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.ico"
+    },
+    "linux": {
+      "target": "deb"
+    },
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": "dmg"
+    }
+  }
+}

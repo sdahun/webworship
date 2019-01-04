@@ -1,3 +1,4 @@
 hymnal/*/*.mp3
 hymnal/*/*.txt
 node_modules
+dist
